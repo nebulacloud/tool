@@ -55,12 +55,18 @@ public class FreemarkerGenerator implements InitializingBean {
 		}
 	}
 
-	public void generate(TableMeta meta) throws Exception {
+    /**
+     *
+     生成
+     * @param meta
+     * @throws Exception
+     */
+	public void produce(TableMeta meta) throws Exception {
 		generateModel(meta);
 		generateMapper(meta);
 	}
 
-	// generate java model class
+	// 创建 generate java model class
 	private void generateModel(TableMeta meta) throws Exception {
 		Template template = configuration.getTemplate("model.ftl");
 		logger.info("Use template file: {}. ", template.getName());
