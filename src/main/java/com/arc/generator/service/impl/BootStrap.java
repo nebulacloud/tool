@@ -1,25 +1,27 @@
-package com.mybatis.generator;
+package com.arc.generator.service.impl;
 
+import com.arc.generator.config.properties.ArcGeneratorProperties;
+import com.arc.generator.mapper.MetaMapper;
+import com.arc.generator.model.domain.meta.TableMeta;
+import com.arc.generator.utils.JacksonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.mybatis.generator.generator.FreemarkerGenerator;
-import com.mybatis.generator.mapper.MetaMapper;
-import com.mybatis.generator.meta.TableMeta;
 
 @Component
 public class BootStrap {
 
     private static final Logger logger = LoggerFactory.getLogger(BootStrap.class);
 
-    @Value("${meta.schemaName}")
-    private String tableSchema;
+    @Autowired
+    private ArcGeneratorProperties generatorProperties;
 
-    @Value("${meta.tableName}")
-    private String tableName;
+//    @Value("${meta.schemaName}")
+//    private String tableSchema;
+//    @Value("${meta.tableName}")
+//    private String tableName;
 
     @Autowired
     private FreemarkerGenerator generator;
@@ -35,7 +37,7 @@ public class BootStrap {
     }
 
     private TableMeta createTableMate() {
-        TableMeta meta = mapper.get(tableSchema, tableName);
+        TableMeta meta = mapper.get(generatorProperties.getDatabase().getSchemaName(),generatorProperties.getDatabase().getTableName());
         if (meta == null) {
             throw new IllegalArgumentException("\n指定的表不存在，请检查表的名称或数据库是否配置正确！\nPlease check schemaName and tableName are correct. ");
         }

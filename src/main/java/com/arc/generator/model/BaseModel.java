@@ -1,4 +1,4 @@
-package com.mybatis.generator;
+package com.arc.generator.model;
 
 import java.io.Serializable;
 import java.lang.annotation.*;
@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 public class BaseModel implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -25,9 +25,9 @@ public class BaseModel implements Serializable {
 		builder.append("]}");
 		return builder.toString();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @param clazz
 	 * @return
@@ -70,7 +70,7 @@ public class BaseModel implements Serializable {
 		}
 		return builder.toString();
 	}
-	
+
 	@Target({ ElementType.FIELD })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented

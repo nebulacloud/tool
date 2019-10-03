@@ -1,4 +1,4 @@
-package com.mybatis.generator.generator.service;
+package com.arc.generator.service;
 
 /**
  * @author 叶超

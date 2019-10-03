@@ -1,8 +1,7 @@
-package com.mybatis.generator.mapper;
+package com.arc.generator.mapper;
 
+import com.arc.generator.model.domain.meta.TableMeta;
 import org.apache.ibatis.annotations.Param;
-
-import com.mybatis.generator.meta.TableMeta;
 
 public interface MetaMapper {
 
