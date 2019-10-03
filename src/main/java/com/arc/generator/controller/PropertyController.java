@@ -22,18 +22,23 @@ import java.util.Map;
 @RestController
 public class PropertyController {
 
+    @Autowired
+    private ArcGeneratorProperties generatorProperties;
+
+    @Autowired
+    private TestValue testValue;
+
+    @Autowired
+    private MetaMapper metaMapper;
+
     @GetMapping(value = "/test")
     public ResponseEntity<Map<String, Object>> page() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "arc");
         map.put("age", 12);
         ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(500);
-        ResponseEntity<Map<String, Object>> body = bodyBuilder.body(map);
-        return body;
+        return bodyBuilder.body(map);
     }
-
-    @Autowired
-    private MetaMapper metaMapper;
 
     /**
      * @param tableSchema 数据库
@@ -44,23 +49,20 @@ public class PropertyController {
     public ResponseEntity meate(@PathVariable String tableSchema, @PathVariable String tableName) {
         TableMeta tableMeta = metaMapper.get(tableSchema, tableName);
         ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(201);
-        ResponseEntity<Object> body = bodyBuilder.body(tableMeta);
-        return body;
+        return bodyBuilder.body(tableMeta);
     }
 
-    @Autowired
-    private ArcGeneratorProperties generatorProperties;
-
-    @Autowired
-    private TestValue testValue;
-
+    /**
+     * 测试从配置文件中读取配置
+     *
+     * @return ResponseEntity
+     */
     @GetMapping(value = "/test/value")
-    public ResponseEntity getvalue() {
+    public ResponseEntity getValue() {
         Map<String, Object> map = new HashMap<>();
         map.put("generatorProperties", generatorProperties);
         map.put("testValue", testValue);
         ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(500);
-        ResponseEntity<Map<String, Object>> body = bodyBuilder.body(map);
-        return body;
+        return bodyBuilder.body(map);
     }
 }

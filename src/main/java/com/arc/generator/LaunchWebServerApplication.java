@@ -6,9 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * 启动类，项目将打包为jar，内置tomcat
+ * 启动类，
+ * 部署：项目将打包为jar，使用内置tomcat启动，外部条件需要mysql8.0
  *
- * @author X
+ * @author lamy
  */
 @Slf4j
 @MapperScan("com.arc.generator.mapper")
