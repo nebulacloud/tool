@@ -1,9 +1,6 @@
 package com.arc.generator.config.properties;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * 表的名称、在mapper中的别名 相关属性
@@ -15,6 +12,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class DatabaseProperties {
 
     public String schemaName = "";

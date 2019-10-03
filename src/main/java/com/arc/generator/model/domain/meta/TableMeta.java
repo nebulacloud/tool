@@ -73,6 +73,10 @@ public class TableMeta implements Serializable {
         return tableName;
     }
 
+    public String getLowerCaseFirstWordClassName() {
+        return NameUtil.lowerCaseFirstWord(getClassName());
+    }
+
     public boolean isDateTypeExists() {
         for (ColumnMeta col : columns) {
             if (col.getDataType().equalsIgnoreCase("date")
