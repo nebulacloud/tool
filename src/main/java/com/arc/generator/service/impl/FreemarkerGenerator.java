@@ -5,7 +5,6 @@ import com.arc.generator.mapper.MetaMapper;
 import com.arc.generator.model.domain.meta.TableMeta;
 import com.arc.generator.service.FileService;
 import com.arc.generator.utils.JacksonUtils;
-import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.slf4j.Logger;
@@ -35,12 +34,10 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
     private MetaMapper mapper;
 
     private static final String JAVA_FILE_SUFFIX = ".java";
-
     private static final String MAPPER_FILE_SUFFIX = ".xml";
 
     public String output;
 
-    public Map<String, Object> dataModel = new HashMap<>(40);
 
     @Autowired
     private Configuration configuration;
@@ -102,14 +99,20 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
         return produce(generatorProperties);
     }
 
+
+    /**
+     * 创建 model 文件
+     * 创建 mapper接口文件
+     * 创建 mapper.xml文件
+     * 创建 service 文件
+     * 创建 service.impl 文件
+     * 创建 controller 文件
+     *
+     * @param arcGeneratorProperties
+     * @return
+     */
     @Override
     public Map<String, Object> produce(ArcGeneratorProperties arcGeneratorProperties) {
-        //创建 model 文件
-        //创建 mapper接口文件
-        //创建 mapper.xml文件
-        //创建 service 文件
-        //创建 service.impl 文件
-        //创建 controller 文件
         Map<String, Object> parameterMap = new HashMap<>();
         try {
             log.info("创建 model 文件");
@@ -124,7 +127,6 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
 //            output = getDefaultFile(arcGeneratorProperties.getProject().getOutput()).getPath();
             //包的信息 rootNamespace
             parameterMap.put("javaPackage", arcGeneratorProperties.getProject().getRootNamespace());
-
             String rootNamespace = arcGeneratorProperties.getProject().getRootNamespace();
             parameterMap.put("rootNamespace", rootNamespace);
             parameterMap.put("modelNamespace", rootNamespace + ".model");
@@ -132,19 +134,13 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
             parameterMap.put("serviceNamespace", rootNamespace + ".service");
             parameterMap.put("serviceImplNamespace", rootNamespace + ".impl");
             parameterMap.put("controllerNamespace", rootNamespace + ".controller");
-            parameterMap.put("date", new Date());
-//
-//            parameterMap.put("modelNamespace", arcGeneratorProperties.getProject().getModelNamespace());
-//            parameterMap.put("mapperNamespace", arcGeneratorProperties.getProject().getMapperNamespace());
-//            parameterMap.put("serviceImplNamespace", arcGeneratorProperties.getProject().getMapperNamespace()+".impl");
-//            parameterMap.put("controllerNamespace", arcGeneratorProperties.getProject().getControllerNamespace());
-//
+            parameterMap.put("lowerCaseFirstWordClassName", meta.getLowerCaseFirstWordClassName());
+            parameterMap.put("createDate", new Date());
 
             parameterMap.put(ArcGeneratorProperties.class.getName(), arcGeneratorProperties);
 
             //--------------- create model
-            generateStandardModel(parameterMap);
-
+            //generateStandardModel(parameterMap);
             generateStandard(parameterMap, "service.ftl");
 
 
@@ -184,7 +180,6 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
 
         System.out.println(newFilePath);
         System.out.println(newFilePath);
-        System.out.println(newFilePath);
         parameterMap.put("output", newFilePath);
         log.debug("文件名称={}", newFilePath);
         File javaFile = new File(newFilePath);
@@ -201,10 +196,15 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
             boolean result = javaFile.createNewFile();
             System.out.println(result);
         }
-        FileWriter writer = new FileWriter(javaFile);
-        Environment processingEnvironment = template.createProcessingEnvironment(parameterMap, writer, null);
-        writer.close();
-        System.out.println(processingEnvironment);
+//        FileWriter writer = new FileWriter(javaFile);
+//        Environment processingEnvironment = template.createProcessingEnvironment(parameterMap, writer, null);
+//        writer.close();
+//        System.out.println(processingEnvironment);
+
+        template.process(parameterMap, new FileWriter(javaFile));
+
+
+
     }
 
     private void generateStandard(Map<String, Object> parameterMap, String templatePath) throws Exception {
@@ -226,7 +226,7 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
 
         TableMeta tableMeta = (TableMeta) parameterMap.get(TableMeta.class.getName());
         String className = tableMeta.getClassName();
-        String newFilePath = path + className+"Service" + JAVA_FILE_SUFFIX;
+        String newFilePath = path + className + "Service" + JAVA_FILE_SUFFIX;
 
         System.out.println(newFilePath);
         System.out.println(newFilePath);
@@ -247,10 +247,12 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
             boolean result = javaFile.createNewFile();
             System.out.println(result);
         }
-        FileWriter writer = new FileWriter(javaFile);
-        Environment processingEnvironment = template.createProcessingEnvironment(parameterMap, writer, null);
-        writer.close();
-        System.out.println(processingEnvironment);
+//        FileWriter writer = new FileWriter(javaFile);
+//        Environment processingEnvironment = template.createProcessingEnvironment(parameterMap, writer, null);
+//        writer.close();
+//        System.out.println(processingEnvironment);
+
+        template.process(parameterMap, new FileWriter(javaFile));
     }
 
 
@@ -268,31 +270,7 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
         return meta;
     }
 
-    // 创建 generate java model class
-    private void generateModel(TableMeta meta) throws Exception {
-        dataModel.put("meta", meta);
-        dataModel.put("javaPackage", generatorProperties.getProject().getRootNamespace());
 
-        String className = meta.getClassName();
-        File javaFile = forceCreateFile(output + File.separator + className + JAVA_FILE_SUFFIX);
-
-        Template template = configuration.getTemplate("model.ftl");
-        log.info("Use template file: {}. ", template.getName());
-        template.process(dataModel, new FileWriter(javaFile));
-    }
-
-    // generate mybatis mapper xml
-    private void generateMapper(TableMeta meta) throws Exception {
-        Template template = configuration.getTemplate("mapper.ftl");
-        log.info("Use template file: {}. ", template.getName());
-
-        dataModel.put("meta", meta);
-        dataModel.put("javaPackage", generatorProperties.getProject().getRootNamespace());
-        dataModel.put("columnPrefix", generatorProperties.getDatabase().getTableAlias());
-
-        File mapperFile = createFileForce(meta.getMapperName() + MAPPER_FILE_SUFFIX);
-        template.process(dataModel, new FileWriter(mapperFile));
-    }
 
     /**
      * 全名？
