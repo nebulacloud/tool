@@ -135,7 +135,7 @@ public class FreemarkerGenerator implements InitializingBean, FileService {
             parameterMap.put("serviceImplNamespace", rootNamespace + ".impl");
             parameterMap.put("controllerNamespace", rootNamespace + ".controller");
             parameterMap.put("lowerCaseFirstWordClassName", meta.getLowerCaseFirstWordClassName());
-            parameterMap.put("createDate", new Date());
+            parameterMap.put("createTime", new Date());
 
             parameterMap.put(ArcGeneratorProperties.class.getName(), arcGeneratorProperties);
 

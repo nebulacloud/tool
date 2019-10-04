@@ -13,7 +13,7 @@ import java.util.List;
 * ${meta.tableComment}服务
 *
 * @author 叶超
-* @since ${(createTime?string("yyyy-MM-dd"))!}
+* @since ${createTime?date('yyyy-MM-dd hh:mm:ss')}
 */
 @Slf4j
 public interface ${meta.className}Service {
