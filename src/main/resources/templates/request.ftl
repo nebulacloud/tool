@@ -16,8 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-<#--public class ${meta.className} extends BaseModel {-->
-public class ${meta.className} {
+public class ${meta.className}Request {
 
 	private static final long serialVersionUID = 1L;
 

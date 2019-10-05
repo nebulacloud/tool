@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @since 2019/5/8 22:23
  */
 @Configuration
-@EnableConfigurationProperties(ArcGeneratorProperties.class)
+@EnableConfigurationProperties(ArcGeneratorPropertiesProvider.class)
 public class ArcCoreConfig {
 }

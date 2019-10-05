@@ -17,7 +17,7 @@ public class BootStrap {
 //    private String tableName;
 
     @Autowired
-    private FreemarkerGenerator generator;
+    private FreemarkerGeneratorServiceImpl generator;
 
     public void start() {
         //1、通过数据库获取表的信息

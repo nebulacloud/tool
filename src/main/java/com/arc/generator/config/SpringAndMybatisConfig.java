@@ -1,6 +1,6 @@
 package com.arc.generator.config;
 
-import com.arc.generator.config.properties.ArcGeneratorProperties;
+import com.arc.generator.config.properties.ArcGeneratorPropertiesProvider;
 import com.arc.generator.config.properties.TestValue;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 public class SpringAndMybatisConfig {
 
     @Autowired
-    private ArcGeneratorProperties generatorProperties;
+    private ArcGeneratorPropertiesProvider generatorProperties;
 
     @Autowired
     private TestValue testValue;

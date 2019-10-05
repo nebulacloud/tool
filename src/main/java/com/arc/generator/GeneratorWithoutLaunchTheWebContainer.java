@@ -2,7 +2,7 @@ package com.arc.generator;
 
 import com.arc.generator.config.SpringAndMybatisConfig;
 import com.arc.generator.service.impl.BootStrap;
-import com.arc.generator.service.impl.FreemarkerGenerator;
+import com.arc.generator.service.impl.FreemarkerGeneratorServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -22,7 +22,7 @@ public class GeneratorWithoutLaunchTheWebContainer {
     @SuppressWarnings("resource")
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(SpringAndMybatisConfig.class);
-        Map<String, Object> produce = context.getBean(FreemarkerGenerator.class).produce();
+        Map<String, Object> produce = context.getBean(FreemarkerGeneratorServiceImpl.class).produce();
         log.info("代码生成结果 {}", produce.get("result"));
         log.info("代码生成目录在 {}", produce.get("out"));
     }

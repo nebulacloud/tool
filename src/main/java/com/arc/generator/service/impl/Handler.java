@@ -1,6 +1,6 @@
 package com.arc.generator.service.impl;
 
-import com.arc.generator.config.properties.ArcGeneratorProperties;
+import com.arc.generator.config.properties.ArcGeneratorPropertiesProvider;
 import com.arc.generator.model.domain.meta.TableMeta;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class Handler {
 
     @Autowired
-    private ArcGeneratorProperties generatorProperties;
+    private ArcGeneratorPropertiesProvider generatorProperties;
 
     @Autowired
     private Configuration configuration;
@@ -51,7 +51,7 @@ public class Handler {
 
     // generate mybatis mapper xml
     private void generateMapper(TableMeta meta) throws Exception {
-        Template template = configuration.getTemplate("mapper.ftl");
+        Template template = configuration.getTemplate("mapperInterface.ftl");
         log.info("Use template file: {}. ", template.getName());
 
         dataModel.put("meta", meta);

@@ -10,13 +10,13 @@
 	<resultMap id="${meta.resultMapId}" type="${javaPackage}.${meta.className}">
 	<#list meta.columns as col>
 		<#if col.columnKey == 'PRI'>
-		<id property="${col.fieldName}" column="${columnPrefix}${col.columnName}" javaType="${col.mapperJavaType}" jdbcType="${col.mapperJdbcType}" />
+		<id property="${col.fieldName}" column="${tableAlias}${col.columnName}" javaType="${col.mapperJavaType}" jdbcType="${col.mapperJdbcType}" />
 		<#assign pkColumnName = col.columnName>
 		<#assign pkFieldName = col.fieldName>
 		<#assign pkMapperJavaType = col.mapperJavaType>
 		<#assign pkMapperJdbcType = col.mapperJdbcType>
 		<#else>
-		<result property="${col.fieldName}" column="${columnPrefix}${col.columnName}" javaType="${col.mapperJavaType}" jdbcType="${col.mapperJdbcType}" />
+		<result property="${col.fieldName}" column="${tableAlias}${col.columnName}" javaType="${col.mapperJavaType}" jdbcType="${col.mapperJdbcType}" />
 		</#if>
 	</#list>
 	</resultMap>
@@ -24,17 +24,17 @@
 	<sql id="sql${meta.className}Columns">
 	<#list meta.columns as col>
 		<#if col_has_next>
-		${columnPrefix}.${col.columnName} AS ${columnPrefix}${col.columnName},
+		${tableAlias}.${col.columnName} AS ${tableAlias}${col.columnName},
 		<#else>
-		${columnPrefix}.${col.columnName} AS ${columnPrefix}${col.columnName}
+		${tableAlias}.${col.columnName} AS ${tableAlias}${col.columnName}
 		</#if>
 	</#list>
 	</sql>
 
 	<select id="get" parameterType="${pkMapperJavaType}" resultMap="${meta.resultMapId}">
 		SELECT <include refid="sql${meta.className}Columns" />
-        FROM ${meta.tableName} ${columnPrefix}
-        WHERE ${columnPrefix}.${pkColumnName} = <@pound></@pound>{${pkFieldName},jdbcType=${pkMapperJdbcType}}
+        FROM ${meta.tableName} ${tableAlias}
+        WHERE ${tableAlias}.${pkColumnName} = <@pound></@pound>{${pkFieldName},jdbcType=${pkMapperJdbcType}}
 	</select>
 
 	<insert id="save" parameterType="${javaPackage}.${meta.className}" useGeneratedKeys="true" keyProperty="${pkFieldName}">

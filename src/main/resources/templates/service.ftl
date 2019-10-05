@@ -4,7 +4,7 @@ package ${javaPackage};
     import java.util.Date;
 </#if>
 
-import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import ${modelNamespace} .${meta.className} ;
 import com.arc.test.model.request.${meta.className}Request;
 import java.util.List;
@@ -12,10 +12,10 @@ import java.util.List;
 /**
 * ${meta.tableComment}服务
 *
-* @author 叶超
-* @since ${(createTime?string("yyyy-MM-dd"))!}
+* @author lamy
+* @since ${(createTime?string("yyyy-MM-dd HH:mm:ss"))!}
+<#--* @since ${(createTime?string("yyyy-MM-dd"))!}-->
 */
-@Slf4j
 public interface ${meta.className}Service {
 
     /**

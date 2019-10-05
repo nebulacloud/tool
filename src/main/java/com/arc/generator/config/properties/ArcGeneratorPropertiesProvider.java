@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @Getter
 @ConfigurationProperties(prefix = "arc.generator")
-public class ArcGeneratorProperties {
+public class ArcGeneratorPropertiesProvider {
 
     private DataSourceProperties dataSource = new DataSourceProperties();
     private DatabaseProperties database = new DatabaseProperties();

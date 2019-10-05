@@ -1,12 +1,12 @@
 package com.arc.generator.controller;
 
-import com.arc.generator.config.properties.ArcGeneratorProperties;
+import com.arc.generator.config.properties.ArcGeneratorPropertiesProvider;
 import com.arc.generator.config.properties.DatabaseProperties;
 import com.arc.generator.config.properties.ProjectProperties;
 import com.arc.generator.config.properties.TestValue;
 import com.arc.generator.mapper.MetaMapper;
 import com.arc.generator.model.domain.meta.TableMeta;
-import com.arc.generator.service.impl.FreemarkerGenerator;
+import com.arc.generator.service.impl.FreemarkerGeneratorServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class PropertyController {
 
     @Autowired
-    private ArcGeneratorProperties generatorProperties;
+    private ArcGeneratorPropertiesProvider generatorProperties;
 
     @Autowired
     private TestValue testValue;
@@ -71,7 +71,7 @@ public class PropertyController {
     }
 
     @Autowired
-    private FreemarkerGenerator freemarkerGenerator;
+    private FreemarkerGeneratorServiceImpl freemarkerGeneratorServiceImpl;
 
     /**
      * 测试生成逻辑
@@ -80,7 +80,7 @@ public class PropertyController {
      */
     @GetMapping(value = "/test/basic")
     public ResponseEntity free() {
-        return ResponseEntity.ok(freemarkerGenerator.produce());
+        return ResponseEntity.ok(freemarkerGeneratorServiceImpl.produce());
     }
 
     @GetMapping(value = "/test/2")
@@ -96,10 +96,10 @@ public class PropertyController {
     ) {
 
         //todo 默认别名          tableAlias =tableAlias==null:;
-        ArcGeneratorProperties arcGeneratorProperties = new ArcGeneratorProperties();
-        arcGeneratorProperties.setProject(new ProjectProperties(rootNamespace, mapperNamespace, modelNamespace,output));
-        arcGeneratorProperties.setDatabase(new DatabaseProperties(schemaName,tableName,tableAlias));
-        return ResponseEntity.ok(freemarkerGenerator.produce(arcGeneratorProperties));
+        ArcGeneratorPropertiesProvider arcGeneratorPropertiesProvider = new ArcGeneratorPropertiesProvider();
+        arcGeneratorPropertiesProvider.setProject(new ProjectProperties(rootNamespace, mapperNamespace, modelNamespace,output));
+        arcGeneratorPropertiesProvider.setDatabase(new DatabaseProperties(schemaName,tableName,tableAlias));
+        return ResponseEntity.ok(freemarkerGeneratorServiceImpl.produce(arcGeneratorPropertiesProvider));
     }
 
 
