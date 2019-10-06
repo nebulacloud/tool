@@ -1,20 +1,17 @@
 package ${javaPackage};
 
-<#if meta.dateTypeExists>
-    import java.util.Date;
-</#if>
-
 import lombok.extern.slf4j.Slf4j;
 import ${modelNamespace} .${meta.className} ;
 import com.arc.test.model.request.${meta.className}Request;
 import java.util.List;
-
+<#if meta.dateTypeExists>
+    import java.util.Date;
+</#if>
 /**
 * ${meta.tableComment}服务
 *
 * @author lamy
 * @since ${(createTime?string("yyyy-MM-dd HH:mm:ss"))!}
-<#--* @since ${(createTime?string("yyyy-MM-dd"))!}-->
 */
 public interface ${meta.className}Service {
 

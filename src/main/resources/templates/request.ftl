@@ -2,9 +2,7 @@ package ${javaPackage};
 
 <#if meta.dateTypeExists>
 import java.util.Date;
-
 </#if>
-
 import lombok.Getter;
 import lombok.Setter;
 
